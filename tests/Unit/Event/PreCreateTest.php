@@ -12,17 +12,15 @@ class PreCreateTest extends PHPUnit_Framework_TestCase {
 
         $parent = $this->getMockBuilder(Node::class)
             ->getMock();
-        $parent
-            ->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(null));
         $node = $this->getMockBuilder(Node::class)
             ->getMock();
         $node
             ->expects($this->once())
             ->method('getParent')
             ->will($this->returnValue($parent));
+
         $event = PreCreate::fromNode($node);
+
         $this->assertEquals('null', $event->type());
 	}
 

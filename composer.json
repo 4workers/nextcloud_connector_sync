@@ -1,0 +1,15 @@
+{
+    "name": "Custom Avatar Text App",
+    "description": "Custom text for user avatar",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Serhii Shliakhov"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}

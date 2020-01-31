@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>nextcloud_connector_sync</id>
+    <name>Nextcloud and connector synchronization</name>
+    <summary>Sets of hooks to communicate with the connector</summary>
+    <description><![CDATA[Sets of hooks to communicate with the connector]]></description>
+    <version>0.0.1</version>
+    <licence>none</licence>
+    <author mail="husband.sergey@gmail.com" homepage="https://github.com/matchish">Serhii Shliakhov</author>
+    <namespace>NextcloudConnectorSync</namespace>
+    <category>tools</category>
+    <bugs>https://github.com/matchish/https://github.com/4workers/nextcloud_connector_sync/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="18" max-version="18"/>
+    </dependencies>
+</info>

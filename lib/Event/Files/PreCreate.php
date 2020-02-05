@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace OCA\NextcloudConnectorSync\Event\Files;
 
-
+use OCA\NextcloudConnectorSync\ProjectStorage;
 use OCA\NextcloudConnectorSync\Event\General as GeneralEvent;
 use OCP\Files\Node;
 
 class PreCreate extends GeneralEvent
 {
 
-    public static function fromNode(Node $node)
+    public static function create(Node $node, ProjectStorage $storage)
     {
-        $parent = $node->getParent();
-        if ($parent) {
-            return new static('null', []);
+        $projectNode = $storage->projectByNode($node);
+        if (!$projectNode) {
+            return new static('', []);
         }
-        return new static('beforeCreate', []);
+        return new static('nodeAdded', []);
     }
 }

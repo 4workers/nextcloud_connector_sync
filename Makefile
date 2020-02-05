@@ -152,5 +152,5 @@ appstore:
 	--exclude="../$(app_name)/js/.*" \
 
 .PHONY: test
-test:
+test: composer
 	$(CURDIR)/vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml --coverage-clover build/php-unit.coverage.xml

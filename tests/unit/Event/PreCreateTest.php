@@ -101,18 +101,3 @@ class PreCreateTest extends TestCase
     }
 
 }
-
-
-class Results
-{
-
-    public function fetch()
-    {
-        return [];
-    }
-
-    public function closeCursor()
-    {
-
-    }
-}

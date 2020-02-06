@@ -21,17 +21,16 @@ class ProjectStorage
     public function projectByNode(Node $node): ?Node
     {
         $currentNode = $node;
-        while (true) {
-            $foreignId = $this->propertiesStorage->foreignId($currentNode);
-            if ($foreignId) {
-                return $node;
-            }
-            try {
-                $currentNode = $currentNode->getParent();
-            } catch (NotFoundException $e) {
-                return null;
-            }
+        $foreignId = $this->propertiesStorage->foreignId($currentNode);
+        if ($foreignId) {
+            return $node;
         }
+        try {
+            $currentNode = $currentNode->getParent();
+        } catch (NotFoundException $e) {
+            return null;
+        }
+        return $this->projectByNode($currentNode);
     }
 
 }

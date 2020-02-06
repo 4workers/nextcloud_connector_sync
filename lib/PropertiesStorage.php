@@ -6,8 +6,8 @@ namespace OCA\NextcloudConnectorSync;
 
 
 use OCP\Files\Node;
-use OCP\IDBConnection;
 use OCP\Files\NotFoundException;
+use OCP\IDBConnection;
 
 class PropertiesStorage
 {

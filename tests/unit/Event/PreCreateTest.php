@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace OCA\NextcloudConnectorSync\Tests\Unit\Event\Files;
 
+use Exception;
 use OC\Files\Node\Root;
 use OCA\NextcloudConnectorSync\Event\Files\PreCreate;
 use OCA\NextcloudConnectorSync\ProjectStorage;
 use OCA\NextcloudConnectorSync\PropertiesStorage;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use Test\TestCase;
 
-class PreCreateTest extends \Test\TestCase {
+class PreCreateTest extends TestCase
+{
 
-	public function testCreateForNodeOutsideOfProject() {
+    public function testCreateForNodeOutsideOfProject()
+    {
 
         $node = $this->createTestNode(Node::class, '/parent/node');
         $propertiesStorage = $this->createPropertiesStorage($node);
@@ -23,49 +27,11 @@ class PreCreateTest extends \Test\TestCase {
         $event = PreCreate::create($node, $storage);
 
         $this->assertEquals('', $event->type());
-	}
-
-    public function testCreateForNodeInsideOfProject() {
-
-        $node = $this->createTestNode(Node::class, '/project/node');
-        $propertiesStorage = $this->createPropertiesStorage($node);
-
-        $storage = new ProjectStorage($propertiesStorage);
-
-        $event = PreCreate::create($node, $storage);
-
-        $this->assertEquals('nodeAdded', $event->type());
-        $this->assertEquals(['path' => '/project/node'], $event->params());
     }
 
-    private function createPropertiesStorage($node)
+    private function createTestNode($class, $path)
     {
-        $storage = $this->getMockBuilder(PropertiesStorage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $map = [];
-        while (true) {
-            $foreignId = null;
-            $path = $node->getPath();
-            if (basename($path) === 'project') {
-                $foreignId = 'project';
-            }
-            $map[] = [$node, $foreignId];
-            try {
-                $node = $node->getParent();
-            } catch (\Exception $e) {
-                break;
-            }
-        }
-        $storage->expects($this->any())
-            ->method('foreignId')
-            ->will($this->returnValueMap($map));
-        return $storage;
-    }
-
-    private function createTestNode($class, $path) {
-	    if ($path === '/') {
+        if ($path === '/') {
             $node = $this->getMockBuilder(Root::class)
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -94,10 +60,51 @@ class PreCreateTest extends \Test\TestCase {
         return $node;
     }
 
+    private function createPropertiesStorage($node)
+    {
+        $storage = $this->getMockBuilder(PropertiesStorage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $map = [];
+        while (true) {
+            $foreignId = null;
+            $path = $node->getPath();
+            if (basename($path) === 'project') {
+                $foreignId = 'project';
+            }
+            $map[] = [$node, $foreignId];
+            try {
+                $node = $node->getParent();
+            } catch (Exception $e) {
+                break;
+            }
+        }
+        $storage->expects($this->any())
+            ->method('foreignId')
+            ->will($this->returnValueMap($map));
+        return $storage;
+    }
+
+    public function testCreateForNodeInsideOfProject()
+    {
+
+        $node = $this->createTestNode(Node::class, '/project/node');
+        $propertiesStorage = $this->createPropertiesStorage($node);
+
+        $storage = new ProjectStorage($propertiesStorage);
+
+        $event = PreCreate::create($node, $storage);
+
+        $this->assertEquals('nodeAdded', $event->type());
+        $this->assertEquals(['path' => '/project/node'], $event->params());
+    }
+
 }
 
 
-class Results {
+class Results
+{
 
     public function fetch()
     {

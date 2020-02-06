@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\NextcloudConnectorSync\Event\Files;
 
-use OCA\NextcloudConnectorSync\ProjectStorage;
 use OCA\NextcloudConnectorSync\Event\General as GeneralEvent;
+use OCA\NextcloudConnectorSync\ProjectStorage;
 use OCP\Files\Node;
 
 class PreCreate extends GeneralEvent

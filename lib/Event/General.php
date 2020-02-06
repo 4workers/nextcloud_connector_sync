@@ -31,4 +31,13 @@ class General
     {
         return $this->params;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'type' => $this->type(),
+            'params' => $this->params()
+        ];
+    }
+
 }

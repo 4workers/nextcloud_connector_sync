@@ -1,14 +1,16 @@
 {
-    "name": "Custom Avatar Text App",
-    "description": "Custom text for user avatar",
+    "name": "4workers/nextcloud_connector_sync",
+    "description": "Sets of hooks to communicate with the connector",
     "type": "project",
-    "license": "AGPL",
+    "license": "None",
     "authors": [
         {
             "name": "Serhii Shliakhov"
         }
     ],
-    "require": {},
+    "require": {
+        "guzzlehttp/guzzle": "^6.5"
+    },
     "require-dev": {
         "phpunit/phpunit": "^8"
     }

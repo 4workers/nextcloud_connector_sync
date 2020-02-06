@@ -6,13 +6,14 @@ namespace OCA\NextcloudConnectorSync;
 
 use OC\HintException;
 use OCA\NextcloudConnectorSync\Event\Files\PreCreate;
-use OCP\Files\Node;
+use OCP\EventDispatcher\GenericEvent;
 
 class Hooks
 {
 
-    public static function preCreateFile(Node $node)
+    public static function preCreateFile(GenericEvent $event)
     {
+        $node = $event->getSubject();
         $projectStorage = \OC::$server->query(ProjectStorage::class);
         try {
             $event = PreCreate::create($node, $projectStorage);
@@ -22,4 +23,5 @@ class Hooks
             throw new HintException($e);
         }
     }
+
 }

@@ -10,6 +10,7 @@ use OCA\NextcloudConnectorSync\Hooks;
 use OCA\NextcloudConnectorSync\ProjectStorage;
 use OCA\NextcloudConnectorSync\PropertiesStorage;
 use OCP\AppFramework\App;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 
 class Application extends App
@@ -37,10 +38,9 @@ class Application extends App
 
     public function register()
     {
-        $container = $this->getContainer();
-        $server = $container->query('ServerContainer');
-        $root = $server->getRootFolder();
-        $root->listen('\OC\Files', 'preCreate', [Hooks::class, 'preCreateFile']);
+//        /* @var IEventDispatcher $eventDispatcher */
+        $dispatcher = $this->getContainer()->query(IEventDispatcher::class);
+        $dispatcher->addListener('\OCP\Files::preCreate', [Hooks::class, 'preCreateFile']);
     }
 
 }

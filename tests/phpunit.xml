@@ -1,5 +1,4 @@
 <phpunit bootstrap="../../../tests/bootstrap.php" colors="true">
-	<log type="coverage-clover" target="../build/php-unit.coverage.xml"/>
 	<testsuites>
 		<testsuite name="unit">
 			<directory>./unit</directory>

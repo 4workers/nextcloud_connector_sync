@@ -35,6 +35,7 @@ class PreCreateTest extends \Test\TestCase {
         $event = PreCreate::create($node, $storage);
 
         $this->assertEquals('nodeAdded', $event->type());
+        $this->assertEquals(['path' => '/project/node'], $event->params());
     }
 
     private function createPropertiesStorage($node)

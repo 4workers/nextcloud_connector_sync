@@ -6,6 +6,7 @@ namespace OCA\NextcloudConnectorSync\AppInfo;
 
 use OCA\NextcloudConnectorSync\Hooks;
 use OCA\NextcloudConnectorSync\ProjectStorage;
+use OCA\NextcloudConnectorSync\PropertiesStorage;
 use OCP\AppFramework\App;
 use OCP\IDBConnection;
 
@@ -18,8 +19,12 @@ class Application extends App
 
         $container = $this->getContainer();
 
+        $container->registerService(PropertiesStorage::class, function($c) {
+            return new PropertiesStorage($c->query(IDBConnection::class));
+        });
+
         $container->registerService(ProjectStorage::class, function($c) {
-            return new ProjectStorage($c->query(IDBConnection::class));
+            return new ProjectStorage($c->query(PropertiesStorage::class));
         });
     }
 

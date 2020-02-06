@@ -5,14 +5,25 @@ declare(strict_types=1);
 namespace OCA\NextcloudConnectorSync;
 
 
-use OC\HintException;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 
 class Connector
 {
+
+    private $connection;
+
+    public function __construct(Client $connection)
+    {
+        $this->connection = $connection;
+    }
+
     public function send(Event\General $event)
     {
         if ($event->type()) {
-            throw new HintException('not implemented');
+            $this->connection->request('POST', '', [
+                RequestOptions::JSON => $event->toArray()
+            ]);
         }
     }
 }

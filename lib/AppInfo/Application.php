@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\NextcloudConnectorSync\AppInfo;
 
+use GuzzleHttp\Client;
+use OCA\NextcloudConnectorSync\Connector;
 use OCA\NextcloudConnectorSync\Hooks;
 use OCA\NextcloudConnectorSync\ProjectStorage;
 use OCA\NextcloudConnectorSync\PropertiesStorage;
@@ -26,6 +28,11 @@ class Application extends App
         $container->registerService(ProjectStorage::class, function($c) {
             return new ProjectStorage($c->query(PropertiesStorage::class));
         });
+
+        $container->registerService(Connector::class, function($c) {
+            return new Connector(new Client(['base_uri' => getenv('WURTH_CONNECTOR_URL')]));
+        });
+
     }
 
     public function register()

@@ -17,8 +17,10 @@ class PreCreate extends GeneralEvent
         if (!$projectNode) {
             return new static('', []);
         }
-        return new static('nodeAdded', [
+        return new static(
+            'nodeAdded', [
             'path' => $node->getPath(),
-        ]);
+            ]
+        );
     }
 }

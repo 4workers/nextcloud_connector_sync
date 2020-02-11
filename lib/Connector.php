@@ -21,9 +21,11 @@ class Connector
     public function send(Event\General $event)
     {
         if ($event->type()) {
-            $this->connection->request('POST', '', [
+            $this->connection->request(
+                'POST', '', [
                 RequestOptions::JSON => $event->toArray()
-            ]);
+                ]
+            );
         }
     }
 }

@@ -22,23 +22,29 @@ class Application extends App
 
         $container = $this->getContainer();
 
-        $container->registerService(PropertiesStorage::class, function ($c) {
-            return new PropertiesStorage($c->query(IDBConnection::class));
-        });
+        $container->registerService(
+            PropertiesStorage::class, function ($c) {
+                return new PropertiesStorage($c->query(IDBConnection::class));
+            }
+        );
 
-        $container->registerService(ProjectStorage::class, function ($c) {
-            return new ProjectStorage($c->query(PropertiesStorage::class));
-        });
+        $container->registerService(
+            ProjectStorage::class, function ($c) {
+                return new ProjectStorage($c->query(PropertiesStorage::class));
+            }
+        );
 
-        $container->registerService(Connector::class, function ($c) {
-            return new Connector(new Client(['base_uri' => getenv('WURTH_CONNECTOR_URL')]));
-        });
+        $container->registerService(
+            Connector::class, function ($c) {
+                return new Connector(new Client(['base_uri' => getenv('WURTH_CONNECTOR_URL')]));
+            }
+        );
 
     }
 
     public function register()
     {
-//        /* @var IEventDispatcher $eventDispatcher */
+        /* @var IEventDispatcher $eventDispatcher */
         $dispatcher = $this->getContainer()->query(IEventDispatcher::class);
         $dispatcher->addListener('\OCP\Files::preCreate', [Hooks::class, 'preCreateFile']);
     }

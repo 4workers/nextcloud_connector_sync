@@ -4,26 +4,36 @@ declare(strict_types=1);
 
 namespace OCA\NextcloudConnectorSync;
 
-use Exception;
+use Throwable;
 use OC;
+use OC\Files\Node\Node;
 use OC\HintException;
 use OCA\NextcloudConnectorSync\Event\Files\PreCreate;
-use OCP\EventDispatcher\GenericEvent;
 
 class Hooks
 {
 
-    public static function preCreateFile(GenericEvent $event)
+    public static function preCreateFile($event)
     {
-        $node = $event->getSubject();
-        $projectStorage = OC::$server->query(ProjectStorage::class);
+        $subject = $event->getSubject();
+        $subject = is_array($subject) ? $subject : [$subject];
+
         try {
-            $event = PreCreate::create($node, $projectStorage);
-            $connector = OC::$server->query(Connector::class);
-            $connector->send($event);
-        } catch (Exception $e) {
+            foreach ($subject as $node) {
+                static::sendEventOnPreCreateFile($node);
+            }
+        } catch (Throwable $e) {
+            //We should catch all exceptions and throw uncatchable exception
             throw new HintException($e);
         }
+    }
+
+    private static function sendEventOnPreCreateFile(Node $node)
+    {
+        $projectStorage = OC::$server->query(ProjectStorage::class);
+        $event = PreCreate::create($node, $projectStorage);
+        $connector = OC::$server->query(Connector::class);
+        $connector->send($event);
     }
 
 }

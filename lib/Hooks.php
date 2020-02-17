@@ -28,10 +28,33 @@ class Hooks
         }
     }
 
+    public static function postCreateFile($event)
+    {
+        $subject = $event->getSubject();
+        $subject = is_array($subject) ? $subject : [$subject];
+
+        try {
+            foreach ($subject as $node) {
+                static::sendEventOnPostCreateFile($node);
+            }
+        } catch (Throwable $e) {
+            //We should catch all exceptions and throw uncatchable exception
+            throw new HintException($e);
+        }
+    }
+
     private static function sendEventOnPreCreateFile(Node $node)
     {
         $projectStorage = OC::$server->query(ProjectStorage::class);
         $event = PreCreate::create($node, $projectStorage);
+        $connector = OC::$server->query(Connector::class);
+        $connector->send($event);
+    }
+
+    private static function sendEventOnPostCreateFile(Node $node)
+    {
+        $projectStorage = OC::$server->query(ProjectStorage::class);
+        $event = PostCreate::create($node, $projectStorage);
         $connector = OC::$server->query(Connector::class);
         $connector->send($event);
     }

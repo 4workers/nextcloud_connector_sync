@@ -47,6 +47,7 @@ class Application extends App
         /* @var IEventDispatcher $eventDispatcher */
         $dispatcher = $this->getContainer()->query(IEventDispatcher::class);
         $dispatcher->addListener('\OCP\Files::preCreate', [Hooks::class, 'preCreateFile']);
+        $dispatcher->addListener('\OCP\Files::postCreate', [Hooks::class, 'postCreateFile']);
     }
 
 }

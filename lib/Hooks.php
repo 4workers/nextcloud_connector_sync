@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\NextcloudConnectorSync;
 
+use OCA\NextcloudConnectorSync\Event\Files\PostCreate;
 use Throwable;
 use OC;
 use OC\Files\Node\Node;

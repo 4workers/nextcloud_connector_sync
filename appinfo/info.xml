@@ -16,5 +16,6 @@
     </dependencies>
     <types>
         <dav/>
+        <filesystem/>
     </types>
 </info>

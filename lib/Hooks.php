@@ -25,7 +25,7 @@ class Hooks
                 static::sendEventOnPostCreateFile($node);
             }
         } catch (Throwable $e) {
-//            We should catch all exceptions and throw uncatchable exception
+            //We should catch all exceptions and throw uncatchable exception
             throw new HintException($e);
         }
     }

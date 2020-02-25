@@ -151,6 +151,10 @@ appstore:
 	--exclude="../$(app_name)/.*" \
 	--exclude="../$(app_name)/js/.*" \
 
+.PHONY: lint-fix
+lint-fix:
+	$(CURDIR)/vendor/bin/phpcbf --standard=PEAR ./lib
+
 .PHONY: test
-test: composer
+test:
 	$(CURDIR)/vendor/phpunit/phpunit/phpunit -c tests/phpunit.xml --coverage-clover build/php-unit.coverage.xml
